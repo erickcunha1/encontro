@@ -49,23 +49,6 @@
         color: #ff4081;
         position: absolute;
       }
-      @media (max-width: 768px) {
-        /* Efeito piscar no celular */
-        @keyframes piscar {
-          0% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-        #nao {
-          animation: piscar 0.5s infinite;
-        }
-      }
     </style>
   </head>
   <body>
@@ -83,20 +66,25 @@
     <script>
       const botaoNao = document.getElementById("nao");
 
+      function moverBotao() {
+        const larguraJanela = window.innerWidth;
+        const alturaJanela = window.innerHeight;
+        const novaPosicaoX = Math.random() * (larguraJanela - 100);
+        const novaPosicaoY = Math.random() * (alturaJanela - 50);
+        botaoNao.style.left = `${novaPosicaoX}px`;
+        botaoNao.style.top = `${novaPosicaoY}px`;
+      }
+
       function isMobile() {
         return window.innerWidth <= 768;
       }
 
       if (!isMobile()) {
         // No desktop, o botão foge do mouse
-        botaoNao.addEventListener("mouseover", () => {
-          const larguraJanela = window.innerWidth;
-          const alturaJanela = window.innerHeight;
-          const novaPosicaoX = Math.random() * (larguraJanela - 150);
-          const novaPosicaoY = Math.random() * (alturaJanela - 100);
-          botaoNao.style.left = `${novaPosicaoX}px`;
-          botaoNao.style.top = `${novaPosicaoY}px`;
-        });
+        botaoNao.addEventListener("mouseover", moverBotao);
+      } else {
+        // No celular, o botão muda de posição quando tocado
+        botaoNao.addEventListener("touchstart", moverBotao);
       }
     </script>
   </body>
